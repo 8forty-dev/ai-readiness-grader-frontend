@@ -1,6 +1,6 @@
 import React from 'react';
 import { createRoot } from 'react-dom/client'; // Correct import for React 18's createRoot
-import './index.css'; // Assuming you have your Tailwind CSS imports here
+import './index.css'; // This imports your Tailwind CSS
 import App from './App'; // Import your main App component
 
 // Get the root element from your public/index.html
