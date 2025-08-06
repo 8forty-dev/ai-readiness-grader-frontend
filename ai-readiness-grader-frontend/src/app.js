@@ -11,7 +11,7 @@ const CopyIcon = () => (
 // Helper function to generate a random score for demonstration
 const getRandomScore = (min = 60, max = 99) => Math.floor(Math.random() * (max - min + 1)) + min;
 
-// Your service catalog JSON data
+// Hardcoded service catalog JSON data (corrected)
 const serviceCatalog = {
   "service_catalog": {
     "foundational_services": {
@@ -26,7 +26,7 @@ const serviceCatalog = {
             "Increases visibility in local search results.",
             "Builds trust and credibility with potential customers."
           ],
-          " deliverables": [
+          "deliverables": [
             "Claiming and verifying GBP.",
             "Optimizing business information (NAP, hours, etc.).",
             "Writing a compelling business description.",
@@ -293,12 +293,6 @@ const mockAnalysisData = {
       "Upload High-Quality Visual Content: Build a robust photo gallery including team photos, before-and-after project shots, and branded images. Aim for 10-15 new photos monthly.",
       "Implement a Google Posts Strategy: Create a consistent schedule for 'What's New,' 'Offer,' 'Event,' or informational posts to keep your profile dynamic and engaging.",
       "Engage with All Reviews: Respond professionally and promptly to all new reviews, both positive and negative, to foster trust and demonstrate excellent customer service."
-    ],
-    recommendedServices: [
-      'service_01_gbp_optimization',
-      'service_02_google_review_campaign',
-      'service_05_local_seo_citations',
-      'service_09_reputation_management'
     ]
   },
   aiReadiness: {
@@ -319,12 +313,6 @@ const mockAnalysisData = {
       "Restructure Content for Direct Answers: Organize content with clear headings, dedicated FAQ sections, and concise bullet points that directly answer user queries, making it easily digestible for AI summarization.",
       "Enhance E-E-A-T Signals: Add detailed author information, cite credible sources, and actively seek mentions from authoritative sites to build trust and expertise signals for AI algorithms.",
       "Optimize Mobile Performance: Improve page loading speed and ensure full responsiveness across all devices, as AI prioritizes fast, accessible, and user-friendly websites."
-    ],
-    recommendedServices: [
-      'service_06_website_audit', // For schema and technical aspects
-      'service_07_content_creation', // For AI-friendly content
-      'service_15_ai_readiness',
-      'service_04_conversational_ai' // Conversational AI can improve user experience, which AI values
     ]
   },
   seo: {
@@ -345,11 +333,6 @@ const mockAnalysisData = {
       "Develop a Comprehensive Content Strategy: Create new, high-quality, and relevant content that addresses user intent and targets both short-tail and long-tail keywords.",
       "Implement a Strategic Link Building Campaign: Actively seek high-quality, relevant backlinks from reputable sources to boost your domain authority and search engine trust.",
       "Address Technical SEO Issues: Improve page speed, ensure mobile-friendliness, fix any crawlability/indexability problems, and implement proper redirects."
-    ],
-    recommendedServices: [
-      'service_06_website_audit',
-      'service_07_content_creation',
-      'service_08_link_building_pr'
     ]
   },
   competitor: { // This section is for the client's *own* competitive standing analysis
@@ -370,12 +353,6 @@ const mockAnalysisData = {
       "Perform Keyword Gap Analysis: Discover valuable keywords your competitors rank for but you don't, and strategically integrate them into your content and SEO strategy.",
       "Analyze Competitor Backlink Profiles: Identify high-quality backlinks pointing to your competitors and develop a targeted strategy to acquire similar authoritative links.",
       "Review Competitor Content Strategies: Understand what content types, topics, and formats perform well for competitors and use these insights to inform and elevate your own content plan."
-    ],
-    recommendedServices: [
-      'service_13_custom_strategy', // Custom strategy explicitly includes competitive analysis
-      'service_07_content_creation', // To create content that outperforms competitors
-      'service_08_link_building_pr', // To build authority against competitors
-      'service_10_ppc_management' // To outbid competitors in paid search
     ]
   }
 };
@@ -471,88 +448,101 @@ function App() {
 
 
     let solutionsHtml = `
-<h2 class="text-xl font-bold text-gray-800 mb-2">HOW 8FORTY CAN HELP YOUR BUSINESS GROW</h2>
-<p class="text-gray-700 mb-4">Based on this analysis, here are some recommended next steps and how 8forty's product offerings can help you improve your digital presence:</p>
+<h2 className="text-xl font-bold text-gray-800 mb-2">HOW 8FORTY CAN HELP YOUR BUSINESS GROW</h2>
+<p className="text-gray-700 mb-4">Based on this analysis, here are some recommended next steps and how 8forty's product offerings can help you improve your digital presence:</p>
 `;
+
+    // Hardcoded service recommendations
+    const hardcodedServices = {
+        gbp: {
+            name: "Google Business Profile (GBP) Optimization",
+            benefits: "Top priority for local search and AI Overviews, increases visibility in local search results, builds trust and credibility with potential customers."
+        },
+        ai: {
+            name: "AI Readiness & Training",
+            benefits: "Helps the business adapt to the new search landscape, positions the business to be cited by AI Overviews, empowers business owners with knowledge of AI tools."
+        },
+        seo: {
+            name: "Website Audit & Technical SEO",
+            benefits: "Identifies and fixes technical issues hindering performance, improves website crawlability and indexability, helps AI understand the website's content for better summaries and citations."
+        },
+        customStrategy: {
+            name: "Customized Digital Marketing Strategy",
+            benefits: "A complete, data-driven roadmap for business growth, provides a competitive advantage through deep analysis, includes measurable KPIs to track success."
+        },
+        cro: {
+            name: "Conversion Rate Optimization (CRO)",
+            benefits: "Makes the existing website more effective, turns more visitors into customers without increasing traffic, provides data-driven insights on user behavior."
+        },
+        ppc: {
+            name: "Paid Search (PPC) Management",
+            benefits: "Provides an immediate boost in website traffic, highly targeted campaigns to reach specific customers, optimized for maximum ROI and lower cost-per-click."
+        }
+    };
+
 
     // GMB Health Recommendations
     if (gmbScore < 80) { // Example threshold for suggesting improvements
       solutionsHtml += `
-<h3 class="text-lg font-semibold text-gray-800 mt-6 mb-2">1. Enhance Google My Business (GMB) & Local Presence</h3>
-<p class="text-gray-700"><strong>Issue:</strong> A GMB score of ${gmbScore}% indicates significant opportunities to boost your local search visibility and profile completeness.</p>
-<p class="text-gray-700"><strong>Recommended 8forty Services:</strong></p>
-<ul class="list-disc list-inside ml-4 text-gray-700">
-`;
-      mockAnalysisData.gmb.recommendedServices.forEach(serviceId => {
-        const service = getServiceById(serviceId);
-        if (service) {
-          solutionsHtml += `    <li><strong>${service.service_name}:</strong> ${service.benefits.join(' ')}</li>\n`;
-        }
-      });
-      solutionsHtml += `</ul>`;
+<h3 className="text-lg font-semibold text-gray-800 mt-6 mb-2">1. Enhance Google My Business (GMB) & Local Presence</h3>
+<p className="text-gray-700"><strong>Issue:</strong> A GMB score of ${gmbScore}% indicates significant opportunities to boost your local search visibility and profile completeness.</p>
+<p className="text-gray-700"><strong>Recommended 8forty Services:</strong></p>
+<ul className="list-disc list-inside ml-4 text-gray-700">
+    <li><strong>${hardcodedServices.gbp.name}:</strong> ${hardcodedServices.gbp.benefits}</li>
+    <li><strong>Google Review Campaign & Management:</strong> Generates quick wins with an influx of positive reviews, filters negative reviews before they go public, supports all other marketing efforts by building social proof.</li>
+    <li><strong>Local SEO & Citation Building:</strong> Enhances visibility in local search beyond just GBP, builds authority through consistent NAP information, improves local search rankings and customer trust.</li>
+</ul>`;
     }
 
     // AI Search Readiness Recommendations
     if (aiReadinessScore < 80) {
       solutionsHtml += `
-<h3 class="text-lg font-semibold text-gray-800 mt-6 mb-2">2. Boost AI Search Readiness & Content Authority</h3>
-<p class="text-gray-700"><strong>Issue:</strong> With an AI Readiness score of ${aiReadinessScore}% indicates a strong opportunity to optimize your content and technical structure for AI-powered search algorithms.</p>
-<p class="text-gray-700"><strong>Recommended 8forty Services:</strong></p>
-<ul class="list-disc list-inside ml-4 text-gray-700">
-`;
-      mockAnalysisData.aiReadiness.recommendedServices.forEach(serviceId => {
-        const service = getServiceById(serviceId);
-        if (service) {
-          solutionsHtml += `    <li><strong>${service.service_name}:</strong> ${service.benefits.join(' ')}</li>\n`;
-        }
-      });
-      solutionsHtml += `</ul>`;
+<h3 className="text-lg font-semibold text-gray-800 mt-6 mb-2">2. Boost AI Search Readiness & Content Authority</h3>
+<p className="text-gray-700"><strong>Issue:</strong> With an AI Readiness score of ${aiReadinessScore}% indicates a strong opportunity to optimize your content and technical structure for AI-powered search algorithms.</p>
+<p className="text-gray-700"><strong>Recommended 8forty Services:</strong></p>
+<ul className="list-disc list-inside ml-4 text-gray-700">
+    <li><strong>${hardcodedServices.ai.name}:</strong> ${hardcodedServices.ai.benefits}</li>
+    <li><strong>Strategic Content Creation:</strong> Develops authoritative, E-E-A-T-friendly content, addresses customer pain points and conversational queries, positions the business as an industry leader.</li>
+    <li><strong>Conversational AI Integration:</strong> Handles customer inquiries 24/7, functions as an employee that never sleeps or takes time off, automatically books appointments.</li>
+</ul>`;
     }
 
     // SEO Optimization Recommendations
     if (seoScore < 80) {
       solutionsHtml += `
-<h3 class="text-lg font-semibold text-gray-800 mt-6 mb-2">3. Comprehensive SEO Overhaul & Authority Building</h3>
-<p class="text-gray-700"><strong>Issue:</strong> An SEO score of ${seoScore}% indicates foundational SEO elements, on-page optimization, and off-page strategies can be significantly improved for better organic rankings.</p>
-<p class="text-gray-700"><strong>Recommended 8forty Services:</strong></p>
-<ul class="list-disc list-inside ml-4 text-gray-700">
-`;
-      mockAnalysisData.seo.recommendedServices.forEach(serviceId => {
-        const service = getServiceById(serviceId);
-        if (service) {
-          solutionsHtml += `    <li><strong>${service.service_name}:</strong> ${service.benefits.join(' ')}</li>\n`;
-        }
-      });
-      solutionsHtml += `</ul>`;
+<h3 className="text-lg font-semibold text-gray-800 mt-6 mb-2">3. Comprehensive SEO Overhaul & Authority Building</h3>
+<p className="text-gray-700"><strong>Issue:</strong> An SEO score of ${seoScore}% indicates foundational SEO elements, on-page optimization, and off-page strategies can be significantly improved for better organic rankings.</p>
+<p className="text-gray-700"><strong>Recommended 8forty Services:</strong></p>
+<ul className="list-disc list-inside ml-4 text-gray-700">
+    <li><strong>${hardcodedServices.seo.name}:</strong> ${hardcodedServices.seo.benefits}</li>
+    <li><strong>Strategic Content Creation:</strong> Develops authoritative, E-E-A-T-friendly content, addresses customer pain points and conversational queries, positions the business as an industry leader.</li>
+    <li><strong>Link Building & Digital PR:</strong> Builds authority through external validation, increases domain authority and search rankings, generates press mentions and brand visibility.</li>
+</ul>`;
     }
 
     // Client's Competitor Analysis Recommendations
     if (competitorScore < 80) {
       solutionsHtml += `
-<h3 class="text-lg font-semibold text-gray-800 mt-6 mb-2">4. Strategic Competitor Analysis & Market Positioning</h3>
-<p class="text-gray-700"><strong>Issue:</strong> A Competitor Analysis score of ${competitorScore}% indicates a need to better understand your competitive landscape and identify growth opportunities.</p>
-<p class="text-gray-700"><strong>Recommended 8forty Services:</strong></p>
-<ul class="list-disc list-inside ml-4 text-gray-700">
-`;
-      mockAnalysisData.competitor.recommendedServices.forEach(serviceId => {
-        const service = getServiceById(serviceId);
-        if (service) {
-          solutionsHtml += `    <li><strong>${service.service_name}:</strong> ${service.benefits.join(' ')}</li>\n`;
-        }
-      });
-      solutionsHtml += `</ul>`;
+<h3 className="text-lg font-semibold text-gray-800 mt-6 mb-2">4. Strategic Competitor Analysis & Market Positioning</h3>
+<p className="text-gray-700"><strong>Issue:</strong> A Competitor Analysis score of ${competitorScore}% indicates a need to better understand your competitive landscape and identify growth opportunities.</p>
+<p className="text-gray-700"><strong>Recommended 8forty Services:</strong></p>
+<ul className="list-disc list-inside ml-4 text-gray-700">
+    <li><strong>${hardcodedServices.customStrategy.name}:</strong> ${hardcodedServices.customStrategy.benefits}</li>
+    <li><strong>Paid Search (PPC) Management:</strong> Provides an immediate boost in website traffic, highly targeted campaigns to reach specific customers, optimized for maximum ROI and lower cost-per-click.</li>
+    <li><strong>Strategic Content Creation:</strong> Develops authoritative, E-E-A-T-friendly content, addresses customer pain points and conversational queries, positions the business as an industry leader.</li>
+</ul>`;
     }
 
     // General/Overall Recommendations (if scores are generally good or for continuous improvement)
     if (gmbScore >= 80 && aiReadinessScore >= 80 && seoScore >= 80 && competitorScore >= 80) {
       solutionsHtml += `
-<h3 class="text-lg font-semibold text-gray-800 mt-6 mb-2">5. Maintain & Advance Your Digital Presence</h3>
-<p class="text-gray-700"><strong>Issue:</strong> Your website shows strong performance across GMB, AI readiness, SEO, and competitive positioning. Continuous monitoring and advanced strategies can help maintain this lead.</p>
-<p class="text-gray-700"><strong>Recommended 8forty Services:</strong></p>
-<ul class="list-disc list-inside ml-4 text-gray-700">
-    <li><strong>${getServiceById('service_13_custom_strategy').service_name}:</strong> ${getServiceById('service_13_custom_strategy').benefits.join(' ')}</li>
-    <li><strong>${getServiceById('service_12_cro').service_name}:</strong> ${getServiceById('service_12_cro').benefits.join(' ')}</li>
-    <li><strong>${getServiceById('service_10_ppc_management').service_name}:</strong> ${getServiceById('service_10_ppc_management').benefits.join(' ')}</li>
+<h3 className="text-lg font-semibold text-gray-800 mt-6 mb-2">5. Maintain & Advance Your Digital Presence</h3>
+<p className="text-gray-700"><strong>Issue:</strong> Your website shows strong performance across GMB, AI readiness, SEO, and competitive positioning. Continuous monitoring and advanced strategies can help maintain this lead.</p>
+<p className="text-gray-700"><strong>Recommended 8forty Services:</strong></p>
+<ul className="list-disc list-inside ml-4 text-gray-700">
+    <li><strong>${hardcodedServices.customStrategy.name}:</strong> ${hardcodedServices.customStrategy.benefits}</li>
+    <li><strong>${hardcodedServices.cro.name}:</strong> ${hardcodedServices.cro.benefits}</li>
+    <li><strong>${hardcodedServices.ppc.name}:</strong> ${hardcodedServices.ppc.benefits}</li>
 </ul>
 `;
     }
@@ -581,69 +571,69 @@ function App() {
 
 
     const generatedReportHtml = `
-<div class="font-sans text-gray-900 leading-relaxed p-6">
-  <h1 class="text-3xl font-extrabold text-gray-900 mb-6 text-center">Website Analysis Report for ${formattedUrl}</h1>
-  <p class="text-center text-gray-700 text-sm mb-1">Prepared for: Your Client's Business Name</p>
-  <p class="text-center text-gray-700 text-sm mb-1">Date: ${new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}</p>
-  <p class="text-center text-gray-700 text-sm mb-8">Prepared by: 8forty</p>
+<div className="font-sans text-gray-900 leading-relaxed p-6">
+  <h1 className="text-3xl font-extrabold text-gray-900 mb-6 text-center">Website Analysis Report for ${formattedUrl}</h1>
+  <p className="text-center text-gray-700 text-sm mb-1">Prepared for: Your Client's Business Name</p>
+  <p className="text-center text-gray-700 text-sm mb-1">Date: ${new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}</p>
+  <p className="text-center text-gray-700 text-sm mb-8">Prepared by: 8forty</p>
 
-  <h2 class="text-xl font-bold text-gray-800 mb-4">EXECUTIVE SUMMARY</h2>
-  <p class="text-gray-700 mb-8">This report provides a comprehensive analysis of your digital presence, focusing on Google My Business (GMB) health, AI search readiness, and overall SEO optimization. We also include a comparative analysis against key competitors in your niche and location. Our findings highlight areas for improvement and actionable strategies to enhance your online visibility, attract more customers, and drive business growth.</p>
+  <h2 className="text-xl font-bold text-gray-800 mb-4">EXECUTIVE SUMMARY</h2>
+  <p className="text-gray-700 mb-8">This report provides a comprehensive analysis of your digital presence, focusing on Google My Business (GMB) health, AI search readiness, and overall SEO optimization. We also include a comparative analysis against key competitors in your niche and location. Our findings highlight areas for improvement and actionable strategies to enhance your online visibility, attract more customers and drive business growth.</p>
 
-  <h2 class="text-xl font-bold text-gray-800 mb-4">SITE OVERVIEW</h2>
-  <p class="text-gray-700 mb-2">Overall Score: <strong>${combinedScore}%</strong></p>
-  <p class="text-gray-700 mb-4">Your website's overall digital health score is <strong>${combinedScore}%</strong>. This score reflects a combined assessment of your Google My Business profile, readiness for AI-driven search, and traditional SEO performance. A higher score indicates a stronger online presence and greater potential for attracting and converting customers.</p>
+  <h2 className="text-xl font-bold text-gray-800 mb-4">SITE OVERVIEW</h2>
+  <p className="text-gray-700 mb-2">Overall Score: <strong>${combinedScore}%</strong></p>
+  <p className="text-gray-700 mb-4">Your website's overall digital health score is <strong>${combinedScore}%</strong>. This score reflects a combined assessment of your Google My Business profile, readiness for AI-driven search, and traditional SEO performance. A higher score indicates a stronger online presence and greater potential for attracting and converting customers.</p>
 
-  <ul class="list-disc list-inside ml-4 text-gray-700 mb-8">
+  <ul className="list-disc list-inside ml-4 text-gray-700 mb-8">
     <li>Google My Business (GMB) Health: ${gmbScore}%</li>
     <li>AI Search Readiness: ${aiReadinessScore}%</li>
     <li>SEO Optimization: ${seoScore}%</li>
     <li>Competitor Analysis: ${competitorScore}%</li>
   </ul>
 
-  <h2 class="text-xl font-bold text-gray-800 mb-4">KEY ISSUES IDENTIFIED</h2>
-  <p class="text-gray-700 mb-4">Based on our detailed analysis, here are the primary areas requiring attention across your digital presence:</p>
-  <ul class="list-disc list-inside ml-4 text-gray-700 mb-8">
+  <h2 className="text-xl font-bold text-gray-800 mb-4">KEY ISSUES IDENTIFIED</h2>
+  <p className="text-gray-700 mb-4">Based on our detailed analysis, here are the primary areas requiring attention across your digital presence:</p>
+  <ul className="list-disc list-inside ml-4 text-gray-700 mb-8">
     ${allIssues.map(issue => `<li>${issue}</li>`).join('\n    ')}
   </ul>
 
-  <h2 class="text-xl font-bold text-gray-800 mb-4">IMPACT ANALYSIS</h2>
-  <p class="text-gray-700 mb-4">These identified issues have direct implications for your online performance and business growth:</p>
-  <ul class="list-disc list-inside ml-4 text-gray-700 mb-8">
+  <h2 className="text-xl font-bold text-gray-800 mb-4">IMPACT ANALYSIS</h2>
+  <p className="text-gray-700 mb-4">These identified issues have direct implications for your online performance and business growth:</p>
+  <ul className="list-disc list-inside ml-4 text-gray-700 mb-8">
     ${allImpacts.map(impact => `<li>${impact}</li>`).join('\n    ')}
   </ul>
 
-  <h2 class="text-xl font-bold text-gray-800 mb-4">ACTION PLAN</h2>
-  <p class="text-gray-700 mb-4">To address the identified issues and improve your digital standing, we recommend the following strategic actions:</p>
-  <ul class="list-disc list-inside ml-4 text-gray-700 mb-8">
+  <h2 className="text-xl font-bold text-gray-800 mb-4">ACTION PLAN</h2>
+  <p className="text-gray-700 mb-4">To address the identified issues and improve your digital standing, we recommend the following strategic actions:</p>
+  <ul className="list-disc list-inside ml-4 text-gray-700 mb-8">
     ${allActions.map(action => `<li>${action}</li>`).join('\n    ')}
   </ul>
 
-  <h2 class="text-xl font-bold text-gray-800 mb-4">COMPETITOR ANALYSIS</h2>
-  <p class="text-gray-700 mb-4">Your Business's Competitor Analysis Score: ${competitorScore}%</p>
-  <p class="text-gray-700 mb-2">Top Competitors in ${niche} in ${location}:</p>
+  <h2 className="text-xl font-bold text-gray-800 mb-4">COMPETITOR ANALYSIS</h2>
+  <p className="text-gray-700 mb-4">Your Business's Competitor Analysis Score: ${competitorScore}%</p>
+  <p className="text-gray-700 mb-2">Top Competitors in ${niche} in ${location}:</p>
 
-  <div class="overflow-x-auto mb-8">
-    <table class="min-w-full bg-white border border-gray-300 rounded-lg shadow-sm">
+  <div className="overflow-x-auto mb-8">
+    <table className="min-w-full bg-white border border-gray-300 rounded-lg shadow-sm">
       <thead>
-        <tr class="bg-gray-100 text-left text-sm font-semibold text-gray-700 uppercase tracking-wider">
-          <th class="py-3 px-4 border-b border-gray-300 rounded-tl-lg">Competitor Name</th>
-          <th class="py-3 px-4 border-b border-gray-300">Website</th>
-          <th class="py-3 px-4 border-b border-gray-300">GMB Score</th>
-          <th class="py-3 px-4 border-b border-gray-300">AI Score</th>
-          <th class="py-3 px-4 border-b border-gray-300">SEO Score</th>
-          <th class="py-3 px-4 border-b border-gray-300 rounded-tr-lg">Overall Score</th>
+        <tr className="bg-gray-100 text-left text-sm font-semibold text-gray-700 uppercase tracking-wider">
+          <th className="py-3 px-4 border-b border-gray-300 rounded-tl-lg">Competitor Name</th>
+          <th className="py-3 px-4 border-b border-gray-300">Website</th>
+          <th className="py-3 px-4 border-b border-gray-300">GMB Score</th>
+          <th className="py-3 px-4 border-b border-gray-300">AI Score</th>
+          <th className="py-3 px-4 border-b border-gray-300">SEO Score</th>
+          <th className="py-3 px-4 border-b border-gray-300 rounded-tr-lg">Overall Score</th>
         </tr>
       </thead>
       <tbody>
         ${selectedCompetitors.map(comp => `
-        <tr class="hover:bg-gray-50 text-gray-700 text-sm">
-          <td class="py-2 px-4 border-b border-gray-200">${comp.name}</td>
-          <td class="py-2 px-4 border-b border-gray-200"><a href="https://${comp.website}" target="_blank" rel="noopener noreferrer" class="text-blue-600 hover:underline">${comp.website}</a></td>
-          <td class="py-2 px-4 border-b border-gray-200">${comp.gmb}%</td>
-          <td class="py-2 px-4 border-b border-gray-200">${comp.ai}%</td>
-          <td class="py-2 px-4 border-b border-gray-200">${comp.seo}%</td>
-          <td class="py-2 px-4 border-b border-gray-200">${comp.overallScore}%</td>
+        <tr className="hover:bg-gray-50 text-gray-700 text-sm">
+          <td className="py-2 px-4 border-b border-gray-200">${comp.name}</td>
+          <td className="py-2 px-4 border-b border-gray-200"><a href="https://${comp.website}" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">${comp.website}</a></td>
+          <td className="py-2 px-4 border-b border-gray-200">${comp.gmb}%</td>
+          <td className="py-2 px-4 border-b border-gray-200">${comp.ai}%</td>
+          <td className="py-2 px-4 border-b border-gray-200">${comp.seo}%</td>
+          <td className="py-2 px-4 border-b border-gray-200">${comp.overallScore}%</td>
         </tr>
         `).join('')}
       </tbody>
@@ -652,7 +642,7 @@ function App() {
 
   ${solutionsHtml}
 
-  <p class="text-gray-600 text-xs mt-8"><strong>DISCLAIMER:</strong> This report provides a high-level overview based on simulated data. For a detailed, in-depth analysis and personalized strategy, please contact 8forty directly.</p>
+  <p className="text-gray-600 text-xs mt-8"><strong>DISCLAIMER:</strong> This report provides a high-level overview based on simulated data. For a detailed, in-depth analysis and personalized strategy, please contact 8forty directly.</p>
 </div>
     `;
 
@@ -693,19 +683,19 @@ function App() {
   return (
     <div className="min-h-screen bg-gray-100 p-4 sm:p-6 lg:p-8 flex items-center justify-center font-sans">
       <div className="w-full max-w-4xl bg-white rounded-xl shadow-lg p-6 sm:p-8">
-        <h1 class="text-3xl sm:text-4xl font-extrabold text-gray-900 mb-6 text-center text-blue-800">
+        <h1 className="text-3xl sm:text-4xl font-extrabold text-gray-900 mb-6 text-center text-blue-800">
           8forty Website Analysis Tool 🚀
         </h1>
 
-        <div class="mb-6 grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div className="mb-6 grid grid-cols-1 md:grid-cols-2 gap-4">
           <div>
-            <label htmlFor="website-url" class="block text-lg font-medium text-gray-700 mb-2">
+            <label htmlFor="website-url" className="block text-lg font-medium text-gray-700 mb-2">
               Customer Website URL:
             </label>
             <input
               type="url"
               id="website-url"
-              class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-base transition duration-150 ease-in-out"
+              className="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-base transition duration-150 ease-in-out"
               placeholder="e.g., example.com"
               value={url}
               onChange={(e) => setUrl(e.target.value)}
@@ -715,16 +705,16 @@ function App() {
                 }
               }}
             />
-            {error && !url && <p class="mt-2 text-sm text-red-600">{error}</p>}
+            {error && !url && <p className="mt-2 text-sm text-red-600">{error}</p>}
           </div>
           <div>
-            <label htmlFor="location" class="block text-lg font-medium text-gray-700 mb-2">
+            <label htmlFor="location" className="block text-lg font-medium text-gray-700 mb-2">
               Location (for Competitor Analysis):
             </label>
             <input
               type="text"
               id="location"
-              class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-base transition duration-150 ease-in-out"
+              className="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-base transition duration-150 ease-in-out"
               placeholder="e.g., Madison, WI"
               value={location}
               onChange={(e) => setLocation(e.target.value)}
@@ -734,16 +724,16 @@ function App() {
                 }
               }}
             />
-            {error && !location && <p class="mt-2 text-sm text-red-600">{error}</p>}
+            {error && !location && <p className="mt-2 text-sm text-red-600">{error}</p>}
           </div>
-          <div class="md:col-span-2">
-            <label htmlFor="niche" class="block text-lg font-medium text-gray-700 mb-2">
+          <div className="md:col-span-2">
+            <label htmlFor="niche" className="block text-lg font-medium text-gray-700 mb-2">
               Niche (for Competitor Analysis):
             </label>
             <input
               type="text"
               id="niche"
-              class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-base transition duration-150 ease-in-out"
+              className="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-base transition duration-150 ease-in-out"
               placeholder="e.g., Plumbing, Restaurant, Boutique"
               value={niche}
               onChange={(e) => setNiche(e.target.value)}
@@ -753,20 +743,20 @@ function App() {
                 }
               }}
             />
-            {error && !niche && <p class="mt-2 text-sm text-red-600">{error}</p>}
+            {error && !niche && <p className="mt-2 text-sm text-red-600">{error}</p>}
           </div>
         </div>
 
         <button
           onClick={analyzeWebsite}
-          class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-4 rounded-md shadow-lg transition duration-200 ease-in-out transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-75 disabled:opacity-50 disabled:cursor-not-allowed"
+          className="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-4 rounded-md shadow-lg transition duration-200 ease-in-out transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-75 disabled:opacity-50 disabled:cursor-not-allowed"
           disabled={isLoading}
         >
           {isLoading ? (
-            <span class="flex items-center justify-center">
-              <svg class="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+            <span className="flex items-center justify-center">
+              <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
               </svg>
               Analyzing...
             </span>
@@ -776,19 +766,19 @@ function App() {
         </button>
 
         {report && (
-          <div class="mt-8 bg-gray-50 p-6 rounded-lg shadow-inner border border-gray-200">
-            <h2 class="text-2xl font-bold text-gray-800 mb-4 flex items-center justify-between">
+          <div className="mt-8 bg-gray-50 p-6 rounded-lg shadow-inner border border-gray-200">
+            <h2 className="text-2xl font-bold text-gray-800 mb-4 flex items-center justify-between">
               Analysis Report
               <button
                 onClick={copyReportToClipboard}
-                class="ml-4 p-2 bg-green-500 hover:bg-green-600 text-white rounded-md flex items-center text-sm transition duration-150 ease-in-out transform hover:scale-105"
+                className="ml-4 p-2 bg-green-500 hover:bg-green-600 text-white rounded-md flex items-center text-sm transition duration-150 ease-in-out transform hover:scale-105"
               >
-                <CopyIcon class="w-4 h-4 mr-2" />
+                <CopyIcon className="w-4 h-4 mr-2" />
                 {isCopied ? 'Copied!' : 'Copy to Clipboard'}
               </button>
             </h2>
             {/* Render HTML content directly using dangerouslySetInnerHTML */}
-            <div class="prose max-w-none text-gray-800 leading-relaxed" dangerouslySetInnerHTML={{ __html: report }}>
+            <div className="prose max-w-none text-gray-800 leading-relaxed" dangerouslySetInnerHTML={{ __html: report }}>
             </div>
           </div>
         )}
